@@ -353,7 +353,7 @@ export default function Portfolio() {
         {!isDesktop && (
           <nav className="sticky top-0 z-50 w-full" style={{ background: C.panel, borderBottom: `1px solid ${C.line}` }}>
             <div className="flex items-center justify-between px-4 h-12">
-              <span style={{ fontFamily: "'Fraunces', serif", fontStyle: "italic", fontWeight: 600, color: C.ink }}>YTA</span>
+              <span style={{ fontFamily: "'Fraunces', serif", fontStyle: "italic", fontWeight: 600, color: C.ink }}>Y's</span>
               <div className="flex items-center gap-3">
                 <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} style={{ color: C.sub }}>
                   {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
