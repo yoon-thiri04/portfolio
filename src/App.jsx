@@ -47,6 +47,7 @@ function Reveal({ children, delay = 0, className = "" }) {
     <div ref={ref} className={className} style={{
       opacity: visible ? 1 : 0, transform: visible ? "translateY(0px)" : "translateY(16px)",
       transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s`,
+      minWidth: 0,
     }}>
       {children}
     </div>
@@ -96,19 +97,20 @@ function CodeFile({ filename, description, asserts, tags, links, comment, C, inP
           border: `1px solid ${hover ? C.violet : C.line}`, background: C.panel,
           boxShadow: hover ? "0 24px 48px -28px rgba(0,0,0,0.45)" : "none",
           transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(${hover ? -3 : 0}px)`,
+          minWidth: 0, maxWidth: "100%",
         }}
       >
-        <div className="flex items-center justify-between px-4 py-2.5" style={{ background: C.panelAlt, borderBottom: `1px solid ${C.line}` }}>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full" style={{ background: "#F47067" }} />
-            <span className="w-2 h-2 rounded-full" style={{ background: C.amber }} />
-            <span className="w-2 h-2 rounded-full" style={{ background: C.green }} />
-            <span className="ml-3 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.sub }}>{filename}</span>
+        <div className="flex items-center justify-between gap-x-3 gap-y-1.5 px-4 py-2.5 flex-wrap" style={{ background: C.panelAlt, borderBottom: `1px solid ${C.line}` }}>
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#F47067" }} />
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: C.amber }} />
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: C.green }} />
+            <span className="ml-3 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.sub, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{filename}</span>
             {inProgress && (
-              <span className="ml-2 px-1.5 py-0.5 rounded" style={{ fontSize: "10px", fontFamily: "'JetBrains Mono', monospace", color: C.amber, border: `1px solid ${C.amber}` }}>in progress</span>
+              <span className="ml-2 px-1.5 py-0.5 rounded flex-shrink-0" style={{ fontSize: "10px", fontFamily: "'JetBrains Mono', monospace", color: C.amber, border: `1px solid ${C.amber}` }}>in progress</span>
             )}
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-shrink-0">
             {links && links.map((l, i) => (
               <a key={i} href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.label}
                 className="text-xs flex items-center gap-1 transition-colors" style={{ color: C.sub, fontFamily: "'JetBrains Mono', monospace" }}
@@ -119,7 +121,7 @@ function CodeFile({ filename, description, asserts, tags, links, comment, C, inP
             ))}
           </div>
         </div>
-        <div className="p-5 md:p-6 text-sm leading-relaxed" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <div className="p-5 md:p-6 text-sm leading-relaxed" style={{ fontFamily: "'JetBrains Mono', monospace", overflowWrap: "break-word", wordBreak: "break-word" }}>
           <div style={{ color: C.sub }}># {comment}</div>
           <div className="mt-2" style={{ color: C.ink, fontFamily: "'Inter', sans-serif", opacity: 0.88, lineHeight: 1.6 }}>{description}</div>
           {asserts && asserts.length > 0 && (
@@ -135,15 +137,15 @@ function CodeFile({ filename, description, asserts, tags, links, comment, C, inP
               ))}
             </div>
           )}
-          <div className="mt-4">
-            <span style={{ color: C.violet }}>const</span>{" "}
-            <span style={{ color: C.ink }}>stack</span>{" "}
-            <span style={{ color: C.sub }}>=</span>{" "}
+          <div className="mt-4" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: "0 6px" }}>
+            <span style={{ color: C.violet }}>const</span>
+            <span style={{ color: C.ink }}>stack</span>
+            <span style={{ color: C.sub }}>=</span>
             <span style={{ color: C.sub }}>[</span>
             {tags.map((t, i) => (
               <span key={i}>
                 <span style={{ color: C.green }}>"{t}"</span>
-                {i < tags.length - 1 && <span style={{ color: C.sub }}>, </span>}
+                {i < tags.length - 1 && <span style={{ color: C.sub }}>,</span>}
               </span>
             ))}
             <span style={{ color: C.sub }}>]</span>
@@ -272,7 +274,7 @@ export default function Portfolio() {
   };
 
   return (
-    <div style={{ background: C.bg, minHeight: "100vh" }} className={`w-full ${pointerFine ? "custom-cursor-active" : ""}`}>
+    <div style={{ background: C.bg, minHeight: "100vh", overflowX: "hidden" }} className={`w-full ${pointerFine ? "custom-cursor-active" : ""}`}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
         html { scroll-behavior: smooth; }
@@ -312,7 +314,7 @@ export default function Portfolio() {
             }}
           >
             <div className="px-5 py-5" style={{ borderBottom: `1px solid ${C.line}` }}>
-              <div style={{ fontFamily: "'Fraunces', serif", fontStyle: "italic", fontWeight: 600, color: C.ink }} className="text-lg">Y</div>
+              <div style={{ fontFamily: "'Fraunces', serif", fontStyle: "italic", fontWeight: 600, color: C.ink }} className="text-lg">Y's</div>
               <div className="mt-0.5" style={{ fontSize: "11px", fontFamily: "'JetBrains Mono', monospace", color: C.sub }}>~/portfolio</div>
             </div>
             <nav className="py-3">
@@ -423,7 +425,7 @@ export default function Portfolio() {
                   <Reveal delay={0.1}>
                     <div className="mt-6 flex items-center gap-2.5 text-sm" style={{ color: C.sub, fontFamily: "'JetBrains Mono', monospace" }}>
                       <Plane size={14} style={{ color: C.pink, flexShrink: 0 }} />
-                      <span>// departing for EBA Minamata Fieldwork, Japan — Jul 29, 2026 (10 days)</span>
+                      <span>// departing for EBA Minamata Fieldwork, Japan — Jul 29, 2026 </span>
                     </div>
                   </Reveal>
 
@@ -475,7 +477,7 @@ export default function Portfolio() {
             {/* PROJECTS */}
             <section id="projects" className="pb-16 scroll-mt-16">
               <GutterHeader n="03" title="Projects" C={C} />
-              <div style={{ display: "grid", gridTemplateColumns: isDesktop ? "repeat(2, minmax(0, 1fr))" : "1fr", gap: 20 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isDesktop ? "repeat(2, minmax(0, 1fr))" : "minmax(0, 1fr)", gap: 20, minWidth: 0 }}>
                 <CodeFile C={C}
                   filename="ucsy-intellichat.py" comment="FLAGSHIP — institutional RAG chatbot"
                   description="Fine-tuned Gemma 3 4B and SEA-LION v4 27B models using PEFT / LoRA architecture by integrating with RAG for verifiable, up-to-date responses."
@@ -581,7 +583,7 @@ export default function Portfolio() {
                     <span className="ml-3 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.sub }}>contact.sh</span>
                   </div>
                   <div className="p-8 md:p-10 text-center">
-                    <h2 className="italic text-3xl md:text-4xl mb-3" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, color: C.ink }}>Let's talk</h2>
+                    <h2 className="italic text-3xl md:text-4xl mb-3" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, color: C.ink }}>Let's connect.</h2>
                     <p className="text-sm mb-6" style={{ color: C.sub }}>Open to collaborations, and interesting problems.</p>
                     <div className="flex flex-wrap justify-center gap-5 text-sm" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                       <a href="mailto:yoonthiriaung04@gmail.com" className="flex items-center gap-1.5 hover:opacity-70 transition-opacity" style={{ color: C.violet }}><Mail size={14} /> yoonthiriaung04@gmail.com</a>
